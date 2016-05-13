@@ -118,6 +118,7 @@ function iup_upgrader_post_install( $true, $hook_extra, $result ){
 			echo is_wp_error( $activate ) ? 'Plugin could not be reactivated.' : 'Plugin reactivated successfully.';
 		}
 	}
-	return $result;
+
+	return $true;
 }
 
