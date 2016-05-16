@@ -31,12 +31,14 @@ function iup_update_plugins( $value, $transient ){
 		/* "folder/file.php" */
 		$this_plugin = plugin_basename( __FILE__ );
 
-		/* This plugin update data */
+		/* Required data */
 		$update = new stdClass;
-		$update->id          = '';
-		$update->slug        = $this_plugin;
+		$update->slug        = dirname( $this_plugin );
 		$update->plugin      = $this_plugin;
 		$update->new_version = '2.0.0';
+
+		/* Optional */
+		$update->id          = '';
 		$update->package     = 'https://github.com/turtlepod/iup/archive/master.zip';
 		$update->tested      = '4.5.2';
 
@@ -63,20 +65,25 @@ function iup_plugins_api_result( $res, $action, $args ){
 	/* Check if this plugin info requested. */
 	if( 'plugin_information' == $action && isset( $args->slug ) && $this_plugin == $args->slug ){
 
-		/* This plugin data */
+		/* Required Data */
 		$data = new stdClass;
 		$data->name             = 'Infinite Plugin Update';
-		$data->slug             = $this_plugin;
+		$data->slug             = $slug;
 		$data->external         = true; // self hosted.
-		$data->version          = '2.0.0';
-		$data->requires         = '4.0.0';
-		$data->tested           = '4.5.2';
-		$data->last_updated     = '2016-05-12'; // YYYY-MM-DD
 		$data->sections         = array(
 			'changelog' => file_get_contents( "changelog.txt", true ),
 			'support'   => '<p>Need support? <a href="https://genbumedia.com/contact/?about=IUP">Contact Us</a>.</p>',
 		);
+		
+		/* Optional */
+		$data->version          = '2.0.0';
+		$data->last_updated     = '2016-05-12'; // YYYY-MM-DD
 		$data->download_link    = 'https://github.com/turtlepod/iup/archive/master.zip';
+		$data->requires         = '4.0.0';
+		$data->tested           = '4.5.2';
+
+		/* Add it */
+		$res = $data;
 
 		/* Add it */
 		$res = $data;
